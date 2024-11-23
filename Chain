@@ -1,0 +1,131 @@
+--https://scriptblox.com/script/CHAIN-ESP-17607      <- Chain/AI ESP
+--https://scriptblox.com/script/CHAIN-Pre-Alpha-S*-ESP-16692 <- Scraps ESP
+--https://scriptblox.com/script/CHAIN-S*s-Collector-17550 <- Took code from Scrap Collector
+--https://scriptblox.com/u/Alco <- Creator of these three ^^^^
+--https://github.com/Pixeluted <- Adonis Bypass Creator|(Direct Link)->  https://github.com/Pixeluted/adoniscries/blob/main/Source.lua
+
+
+--Adonis Bypass
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua"))()
+--Locals
+local Workspace = cloneref(game:GetService("Workspace"))
+local Players = cloneref(game:GetService("Players"))
+local Camera = Workspace.CurrentCamera
+local LocalPlayer = Players.LocalPlayer
+local MiscFolder = Workspace:WaitForChild("Misc")
+local ZonesFolder = MiscFolder:WaitForChild("Zones")
+local LootFolders = ZonesFolder:WaitForChild("LootingItems"):WaitForChild("Scrap")
+local Shop = workspace.GameStuff.GameSections.SHOP.Door.Teleport:GetPivot()
+local Safe = CFrame.new(-405, 89, 41)
+--Functions
+local bringPlr = function(cframe)
+    local _result = LocalPlayer.Character
+    if _result ~= nil then
+        _result:PivotTo(cframe)
+    end
+end
+
+
+local lookAt = function(cframe)
+    local lookAtPos = CFrame.new(Camera.CFrame.Position, cframe.Position)
+    Camera.CFrame = lookAtPos
+end
+
+
+local collect = function(scrap)
+		local pivotCFrame = scrap:GetPivot()
+		local proximityPrompt = scrap:FindFirstChildWhichIsA("ProximityPrompt", true)
+		if proximityPrompt ~= nil then
+            task.wait()
+			lookAt(pivotCFrame)
+			fireproximityprompt(proximityPrompt)
+		else
+	end
+end
+
+
+local tp = function()
+for _, scraps in LootFolders:GetChildren() do
+    local values = scraps:WaitForChild("Values")
+        if scraps:GetAttribute("Scrap") ~= nil and scraps:IsA("Model") and values:GetAttribute("Available") == true then
+            bringPlr(scraps:GetPivot())
+            task.wait(0.1)
+            collect(scraps)
+            break
+        end
+    end
+end
+
+--GUI
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
+local w = library:CreateWindow("CHAIN")
+local b = w:CreateFolder("TP'S") 
+local c = w:CreateFolder("ESP&MISC")
+local d = w:CreateFolder("Credits")
+
+
+--TP's
+b:Bind("Scrap",Enum.KeyCode.F15,function() --Default bind
+    tp()
+end)
+
+b:Bind("Shop",Enum.KeyCode.F15,function() --Default bind
+    bringPlr(Shop)
+end)
+
+b:Bind("SafeSpot",Enum.KeyCode.F15,function() --Default bind
+    bringPlr(Safe)
+end)
+
+b:Button("Scrap",function()
+    tp()
+end)
+
+b:Button("Shop",function()
+    bringPlr(Shop)
+end)
+
+b:Button("SafeSpot",function()
+    bringPlr(Safe)
+end)
+
+
+
+c:Button("AI ESP",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/BongCloudMaster/CHAIN/main/chain%20esp.lua"))()
+end)
+
+c:Button("Scrap ESP",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/BongCloudMaster/CHAIN/main/scrap%20esp.lua"))()
+end)
+
+c:Button("IY",function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+
+d:Button("Credits",function()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "Credits:";
+	Text = "Alco on scriptblox/mando_mercury(Discord) for the ESP options(Both Scrap & Chain)";
+	Duration = 5;
+});
+task.wait(3)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "";
+	Text = "Pixeluted(github.com/Pixeluted) for Adonis Bypass";
+	Duration = 5;
+});
+task.wait(3)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "";
+	Text = "GUI library by Wally";
+	Duration = 5;
+});
+task.wait(3)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+	Title = "";
+	Text = "Put together by ZenithUDZ on Scriptblox";
+	Duration = 5;
+});
+end)
